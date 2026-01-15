@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finterest - Financial Personality Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-sky-50">
+    <div id="app"></div>
+
+    <script>
+        const questions = [
+            {
+                q: "When you get your paycheck, what's your first thought?",
+                options: [
+                    { text: "Time to treat myself!", type: "spender" },
+                    { text: "Let me save half of this first", type: "saver" },
+                    { text: "Where can I invest this?", type: "investor" },
+                    { text: "Bills, bills, bills...", type: "planner" }
+                ]
+            },
+            {
+                q: "Your friend invites you to an expensive dinner. You:",
+                options: [
+                    { text: "Say yes immediately! YOLO!", type: "spender" },
+                    { text: "Check your budget first", type: "planner" },
+                    { text: "Suggest somewhere cheaper", type: "saver" },
+                    { text: "Go but skip dessert to save", type: "balanced" }
+                ]
+            },
+            {
+                q: "How do you feel about checking your bank account?",
+                options: [
+                    { text: "Anxious... I avoid it", type: "spender" },
+                    { text: "Excited! I love seeing it grow!", type: "saver" },
+                    { text: "Neutral, it's just a number", type: "balanced" },
+                    { text: "I check it multiple times daily", type: "planner" }
+                ]
+            },
+            {
+                q: "You find $100 on the street. What do you do?",
+                options: [
+                    { text: "Shopping spree time!", type: "spender" },
+                    { text: "Straight to savings", type: "saver" },
+                    { text: "Invest in stocks or crypto", type: "investor" },
+                    { text: "Use it for next month's bills", type: "planner" }
+                ]
+            },
+            {
+                q: "How many savings accounts do you have?",
+                options: [
+                    { text: "What's a savings account?", type: "spender" },
+                    { text: "One, and it's growing!", type: "saver" },
+                    { text: "Multiple for different goals!", type: "planner" },
+                    { text: "None, it's all invested", type: "investor" }
+                ]
+            },
+            {
+                q: "Your approach to online shopping is:",
+                options: [
+                    { text: "Add to cart, buy immediately", type: "spender" },
+                    { text: "Wait for sales and discounts", type: "saver" },
+                    { text: "Make a wishlist, rarely buy", type: "planner" },
+                    { text: "Only buy what I budgeted for", type: "balanced" }
+                ]
+            },
+            {
+                q: "How do you feel about credit cards?",
+                options: [
+                    { text: "Love them! Free money!", type: "spender" },
+                    { text: "Use them but pay off monthly", type: "balanced" },
+                    { text: "Prefer debit or cash", type: "saver" },
+                    { text: "Strategic rewards maximizer", type: "planner" }
+                ]
+            },
+            {
+                q: "Your emergency fund is:",
+                options: [
+                    { text: "My what now?", type: "spender" },
+                    { text: "Working on it...", type: "balanced" },
+                    { text: "6+ months of expenses", type: "saver" },
+                    { text: "Fully funded and invested", type: "investor" }
+                ]
+            },
+            {
+                q: "When you see a sale sign, you:",
+                options: [
+                    { text: "Must. Buy. Everything.", type: "spender" },
+                    { text: "Buy only what I need", type: "planner" },
+                    { text: "Walk away, it's a trap!", type: "saver" },
+                    { text: "Calculate if it's worth it", type: "balanced" }
+                ]
+            },
+            {
+                q: "Your idea of a perfect weekend is:",
+                options: [
+                    { text: "Brunch, shopping, spa day", type: "spender" },
+                    { text: "Free activities and nature", type: "saver" },
+                    { text: "Learning about investments", type: "investor" },
+                    { text: "Planned activities on budget", type: "planner" }
+                ]
+            },
+            {
+                q: "How often do you review your budget?",
+                options: [
+                    { text: "I don't have a budget", type: "spender" },
+                    { text: "Once a month", type: "balanced" },
+                    { text: "Weekly or more", type: "planner" },
+                    { text: "When my card gets declined", type: "spender" }
+                ]
+            },
+            {
+                q: "Your retirement plan is:",
+                options: [
+                    { text: "Winning the lottery", type: "spender" },
+                    { text: "Employer 401k only", type: "balanced" },
+                    { text: "Maxing out all accounts", type: "saver" },
+                    { text: "Diversified investment portfolio", type: "investor" }
+                ]
+            },
+            {
+                q: "You receive a bonus at work. You:",
+                options: [
+                    { text: "Vacation time!", type: "spender" },
+                    { text: "80% save, 20% fun", type: "saver" },
+                    { text: "Pay off debt first", type: "planner" },
+                    { text: "Invest it all", type: "investor" }
+                ]
+            },
+            {
+                q: "Your relationship with money is:",
+                options: [
+                    { text: "It's meant to be spent!", type: "spender" },
+                    { text: "It provides security", type: "saver" },
+                    { text: "It's a tool for growth", type: "investor" },
+                    { text: "It needs careful management", type: "planner" }
+                ]
+            },
+            {
+                q: "How do you handle bills?",
+                options: [
+                    { text: "Wait for reminders... oops", type: "spender" },
+                    { text: "Auto-pay everything", type: "planner" },
+                    { text: "Pay early to avoid fees", type: "saver" },
+                    { text: "Pay on time, invest the rest", type: "investor" }
+                ]
+            },
+            {
+                q: "Your coffee habit is:",
+                options: [
+                    { text: "$8 lattes daily", type: "spender" },
+                    { text: "Homemade coffee only", type: "saver" },
+                    { text: "Weekly cafe treat", type: "balanced" },
+                    { text: "Calculated in my budget", type: "planner" }
+                ]
+            },
+            {
+                q: "You see your dream item on sale. You:",
+                options: [
+                    { text: "Buy it immediately!", type: "spender" },
+                    { text: "Sleep on it for a week", type: "saver" },
+                    { text: "Check if it fits my budget", type: "planner" },
+                    { text: "Research better investment", type: "investor" }
+                ]
+            },
+            {
+                q: "Your financial goal for this year is:",
+                options: [
+                    { text: "Just surviving", type: "spender" },
+                    { text: "Save $X amount", type: "saver" },
+                    { text: "Hit specific milestones", type: "planner" },
+                    { text: "Grow wealth by X%", type: "investor" }
+                ]
+            },
+            {
+                q: "How do you feel about debt?",
+                options: [
+                    { text: "It's just part of life", type: "spender" },
+                    { text: "Terrified of it!", type: "saver" },
+                    { text: "Working to eliminate it", type: "planner" },
+                    { text: "Good debt vs bad debt", type: "investor" }
+                ]
+            },
+            {
+                q: "Your money mantra is:",
+                options: [
+                    { text: "Live for today!", type: "spender" },
+                    { text: "A penny saved is earned", type: "saver" },
+                    { text: "Plan today, prosper tomorrow", type: "planner" },
+                    { text: "Money makes money", type: "investor" }
+                ]
+            }
+        ];
+
+        const personalities = {
+            spender: {
+                title: "The Free Spirit",
+                subtitle: "Living in the Moment",
+                color: "bg-rose-100",
+                accentColor: "bg-rose-400",
+                icon: "❤️",
+                description: "You believe money is meant to be enjoyed. Life is short, and you're here for a good time. You bring joy and spontaneity to every purchase.",
+                strengths: "Spontaneous, generous, lives in the moment, brings joy to others",
+                challenges: "Building savings, long-term planning, impulse control",
+                advice: "Try the 24-hour rule before big purchases. Set up automatic savings so you can spend guilt-free. Even saving 10% will help future-you feel secure."
+            },
+            saver: {
+                title: "The Nest Builder",
+                subtitle: "Security-Focused",
+                color: "bg-green-100",
+                accentColor: "bg-green-400",
+                icon: "🛡️",
+                description: "Security is your superpower. You find peace in watching your savings grow and always have a safety net. Your future self will thank you.",
+                strengths: "Disciplined, prepared for emergencies, financially secure, patient",
+                challenges: "Enjoying the present, taking calculated risks, treating yourself",
+                advice: "Create a 'fun money' category in your budget so you can enjoy life guilt-free. Remember: money is also a tool for creating happy memories."
+            },
+            investor: {
+                title: "The Wealth Builder",
+                subtitle: "Growth-Oriented",
+                color: "bg-purple-100",
+                accentColor: "bg-purple-400",
+                icon: "📈",
+                description: "You see money as a tool for growth. While others spend or save, you're building wealth. You're playing the long game and it shows.",
+                strengths: "Strategic thinking, wealth-focused, educated about finance, future-oriented",
+                challenges: "Enjoying current moment, diversification anxiety, market obsession",
+                advice: "Don't forget to live a little. Set aside 'joy money' that you can spend guilt-free. Balance is key to sustainable wealth building."
+            },
+            planner: {
+                title: "The Organized Architect",
+                subtitle: "Detail-Oriented",
+                color: "bg-blue-100",
+                accentColor: "bg-blue-400",
+                icon: "⭐",
+                description: "Every dollar has a job. You're the master of budgets, spreadsheets, and financial goals. Your organization inspires others to get their money together.",
+                strengths: "Organized, goal-oriented, responsible, financially literate, prepared",
+                challenges: "Over-planning, analysis paralysis, being too rigid with budget",
+                advice: "Build some flexibility into your plans. Life happens. Having a 'buffer' category helps you stay on track without stress when surprises pop up."
+            },
+            balanced: {
+                title: "The Harmonious Soul",
+                subtitle: "Well-Rounded",
+                color: "bg-amber-100",
+                accentColor: "bg-amber-400",
+                icon: "✨",
+                description: "You've found the sweet spot. You save for the future while enjoying the present. Your balanced approach to money creates peace and sustainability.",
+                strengths: "Balanced perspective, flexible, enjoys life responsibly, well-rounded",
+                challenges: "May lack clear direction, could optimize further in any area",
+                advice: "You're doing great. Consider setting one stretch goal to level up your financial game — whether that's boosting savings, learning about investing, or planning better."
+            }
+        };
+
+        let currentQuestion = 0;
+        let answers = {};
+
+        function renderQuiz() {
+            const progress = ((currentQuestion + 1) / questions.length) * 100;
+            const question = questions[currentQuestion];
+
+            document.getElementById('app').innerHTML = `
+                <div class="min-h-screen p-8">
+                    <div class="max-w-3xl mx-auto">
+                        <div class="text-center mb-12 pb-8">
+                            <div class="text-xs tracking-widest text-neutral-500 mb-2">B.SC FINANCE • A STUDENT COUNCIL LED INITIATIVE</div>
+                            <h1 class="text-6xl font-bold tracking-tighter text-blue-900 mb-2">FINTEREST</h1>
+                            <div class="text-xs tracking-widest text-neutral-500">DISCOVER YOUR FINANCIAL PERSONALITY</div>
+                        </div>
+
+                        <div class="mb-12">
+                            <div class="flex justify-between text-xs tracking-widest text-neutral-500 mb-3">
+                                <span>QUESTION ${currentQuestion + 1} OF ${questions.length}</span>
+                                <span>${Math.round(progress)}%</span>
+                            </div>
+                            <div class="h-0.5 bg-neutral-200">
+                                <div class="h-full bg-neutral-800 transition-all duration-500" style="width: ${progress}%"></div>
+                            </div>
+                        </div>
+
+                        <div class="mb-12">
+                            <h2 class="text-3xl font-light text-neutral-800 mb-12 leading-relaxed">
+                                ${question.q}
+                            </h2>
+
+                            <div class="space-y-3">
+                                ${question.options.map((option, idx) => `
+                                    <button onclick="handleAnswer('${option.type}')" class="w-full text-left p-6 bg-white hover:bg-neutral-100 transition-colors border border-neutral-200 group">
+                                        <div class="flex items-center justify-between">
+                                            <span class="text-lg text-neutral-700 font-light">${option.text}</span>
+                                            <span class="text-neutral-400 group-hover:text-neutral-600 transition-colors">→</span>
+                                        </div>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+
+                        <div class="text-center text-xs text-neutral-400 tracking-widest pt-8 border-t border-neutral-200">
+                            FINTEREST MAGAZINE • 2025
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderResult() {
+            const counts = {};
+            Object.values(answers).forEach(type => {
+                counts[type] = (counts[type] || 0) + 1;
+            });
+
+            let maxType = 'balanced';
+            let maxCount = 0;
+            
+            Object.entries(counts).forEach(([type, count]) => {
+                if (count > maxCount) {
+                    maxCount = count;
+                    maxType = type;
+                }
+            });
+
+            const result = personalities[maxType];
+
+            document.getElementById('app').innerHTML = `
+                <div class="min-h-screen p-8">
+                    <div class="max-w-4xl mx-auto">
+                        <div class="text-center mb-12 pb-8 border-b border-neutral-300">
+                            <div class="text-xs tracking-widest text-neutral-500 mb-2">B.SC FINANCE • A STUDENT COUNCIL LED INITIATIVE</div>
+                            <h1 class="text-6xl font-bold tracking-tighter text-blue-900 mb-2">FINTEREST</h1>
+                            <div class="text-xs tracking-widest text-neutral-500">2025-2026 | YOUR FINANCIAL PERSONALITY</div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-12">
+                            <div class="lg:col-span-2">
+                                <div class="${result.color} p-12 mb-8">
+                                    <div class="flex items-center gap-4 mb-4">
+                                        <span class="text-4xl">${result.icon}</span>
+                                    </div>
+                                    <h2 class="text-4xl font-light tracking-tight text-neutral-800 mb-2">${result.title}</h2>
+                                    <p class="text-lg text-neutral-600 font-light">${result.subtitle}</p>
+                                </div>
+
+                                <div class="space-y-8">
+                                    <div>
+                                        <p class="text-lg leading-relaxed text-neutral-700 font-light">
+                                            ${result.description}
+                                        </p>
+                                    </div>
+
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div>
+                                            <h3 class="text-sm tracking-widest text-neutral-500 mb-3">YOUR STRENGTHS</h3>
+                                            <p class="text-neutral-700 leading-relaxed font-light">${result.strengths}</p>
+                                        </div>
+
+                                        <div>
+                                            <h3 class="text-sm tracking-widest text-neutral-500 mb-3">GROWTH AREAS</h3>
+                                            <p class="text-neutral-700 leading-relaxed font-light">${result.challenges}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="lg:col-span-1">
+                                <div class="${result.accentColor} p-8 h-full flex flex-col justify-center">
+                                    <div class="text-6xl text-white mb-4">"</div>
+                                    <p class="text-white text-lg leading-relaxed font-light italic mb-6">
+                                        ${result.advice}
+                                    </p>
+                                    <div class="text-sm text-white/80 tracking-wider">— YOUR PERSONALIZED ADVICE</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="border-t border-neutral-300 pt-8">
+                            <button onclick="resetQuiz()" class="w-full bg-neutral-800 hover:bg-neutral-700 text-white py-4 tracking-widest text-sm transition-colors">
+                                RETAKE QUIZ
+                            </button>
+                            <div class="text-center mt-6 text-xs text-neutral-400 tracking-widest">
+                                FINTEREST MAGAZINE • 2025
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function handleAnswer(type) {
+            answers[currentQuestion] = type;
+
+            if (currentQuestion < questions.length - 1) {
+                currentQuestion++;
+                renderQuiz();
+            } else {
+                renderResult();
+            }
+        }
+
+        function resetQuiz() {
+            currentQuestion = 0;
+            answers = {};
+            renderQuiz();
+        }
+
+        renderQuiz();
+    </script>
+</body>
+</html>
